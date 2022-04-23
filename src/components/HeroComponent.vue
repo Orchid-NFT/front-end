@@ -188,6 +188,7 @@
               <div class="rounded-md shadow"></div>
               <div class="mt-3 sm:mt-0">
                 <a
+                  v-on:click="mintCharacterNFT()"
                   href="#"
                   class="
                     w-full
@@ -205,7 +206,7 @@
                     bg-black-own
                   "
                 >
-                  Explore
+                  Mint NFT
                 </a>
               </div>
             </div>
@@ -250,10 +251,117 @@
 
 <script>
 import HeroItemCard from "./HeroItemCard.vue";
+//import { Web3 } from "../util/Web3";
+// import { Web3 } from "web3";
+// var Web3 = require("web3");
+// var VueWeb3 = require('vue-web3')
+import { ethers } from "ethers";
+import abi from "../util/abi.json";
+
 export default {
   name: "HeroComponent",
+  data() {
+    return {
+      data: {
+        web3: null,
+      },
+    };
+  },
   components: {
     HeroItemCard,
+  },
+  methods: {
+    async connect({ commit, dispatch }, connect) {
+      try {
+        const { ethereum } = window;
+        if (!ethereum) {
+          commit("setError", "Metamask not installed!");
+          return;
+        }
+        if (!(await dispatch("checkIfConnected")) && connect) {
+          await dispatch("requestAccess");
+        }
+        await dispatch("checkNetwork");
+        await dispatch("fetchNFTMetadata");
+        await dispatch("setupEventListeners");
+      } catch (error) {
+        console.log(error);
+        commit("setError", "Account request refused.");
+      }
+    },
+    async setupEventListeners() {
+      try {
+        // const connectedContract = await dispatch("getContract");
+        // if (!connectedContract) return;
+        // connectedContract
+        // .on
+        // "CharacterNFTMinted",
+        // async (from, tokenId, characterIndex) => {
+        //   console.log(
+        //     `CharacterNFTMinted - sender: ${from} tokenId: ${tokenId.toNumber()} characterIndex: ${characterIndex.toNumber()}`
+        //   );
+        //   const characterNFT = await connectedContract.checkIfUserHasNFT();
+        //   console.log(characterNFT);
+        //  // commit("setCharacterNFT", transformCharacterData(characterNFT));
+        //   alert(
+        //     `Your NFT is all done -- see it here: https://testnets.opensea.io/assets/${
+        //       state.contract_address
+        //     }/${tokenId.toNumber()}`
+        //   );
+        // }
+        // ();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async mintCharacterNFT() {
+      try {
+        //const { ethereum } = window;
+        const connectedContract = await this.getContract();
+        // const provider = ethers.getDefaultProvider();
+        console.log(connectedContract);
+        const mintTxn = await connectedContract.mint(
+          "0xDBf1641CC695cD07fDd94829c1dFa4BdC0F926c4",
+          1,
+          1,
+          []
+        );
+        console.log("sdfdsf");
+        await mintTxn.wait();
+        //mintTxn.send(provider.defaultAccount);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getContract() {
+      try {
+        const { ethereum } = window;
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(
+          "0xB1D9906F421E3C9B60BcD655fcc537d7A52c6030",
+          abi,
+          signer
+        );
+        console.log(connectedContract);
+        return connectedContract;
+      } catch (error) {
+        console.log(error);
+        console.log("connected contract not found");
+        return null;
+      }
+    },
+    // async loadWeb3() {
+    //   if (window.ethereum) {
+    //     this.web3 = new Web3(window.ethereum);
+    //     await window.ethereum.enable();
+    //   } else {
+    //     window.alert("MetaMask not found!");
+    //     return;
+    //   }
+    // },
   },
 };
 </script>

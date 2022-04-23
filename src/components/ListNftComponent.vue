@@ -1,4 +1,5 @@
 <template>
+  <a href="">Next</a>
   <div class="bg flex justify-evenly flex-wrap pl-24 pr-24 pb-24 pt-24">
     <hero-item-card
       url="https://gateway.pinata.cloud/ipfs/QmZ5NRBoW2KPufHjiHmNE2aeqdAZhC6cJSHXAXq2SqzrwA/0000000000000000000000000000000000000000000000000000000000000001.json"
@@ -17,6 +18,17 @@ import HeroItemCard from "./HeroItemCard.vue";
 export default {
   name: "ListNftComponent",
   components: { HeroItemCard },
+  data() {
+    return {
+      number: 0,
+    };
+  },
+  methods: {
+    getNumbers() {
+      //   const n = 1;
+      //   const hexString = n.toString(16);
+    },
+  },
 };
 </script>
 
