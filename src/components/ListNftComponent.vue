@@ -10,6 +10,7 @@
   <!-- <p v-on:click="inc()">Next</p>
   <p v-on:click="prev()">Prev</p> -->
   <button
+    v-on:click="prev()"
     type="button"
     class="
       inline-block
@@ -32,9 +33,10 @@
       mt-4
     "
   >
-    View
+    Prev
   </button>
   <button
+    v-on:click="inc()"
     type="button"
     class="
       inline-block
@@ -57,7 +59,7 @@
       mt-4
     "
   >
-    View
+    Next
   </button>
 </template>
 
