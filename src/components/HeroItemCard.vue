@@ -56,9 +56,15 @@
       <div class="p-6">
         <h5 class="text-gray-900 text-xl font-medium mb-2">{{ data.name }}</h5>
         <ul>
-          <li class="icon water">Water ranking: 14th</li>
-          <li class="icon air">Air ranking: 11th</li>
-          <li class="icon fauna">Fauna ranking: 1th</li>
+          <li class="icon water">
+            Water ranking: {{ data.properties["Water ranking"] }} Th place
+          </li>
+          <li class="icon air">
+            Air ranking: {{ data.properties["Air ranking"] }} Th place
+          </li>
+          <li class="icon fauna">
+            Fauna ranking: {{ data.properties["Founa ranking"] }} Th place
+          </li>
         </ul>
 
         <!-- <p class="text-gray-700 text-base mb-4">
@@ -125,7 +131,10 @@ export default {
     fetchData() {
       fetch(this.url)
         .then((res) => res.json())
-        .then((data) => (this.data = data))
+        .then((data) => {
+          this.data = data;
+          console.log(data);
+        })
         .catch((err) => {
           console.log(err);
           this.fetchData();

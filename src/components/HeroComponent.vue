@@ -226,10 +226,18 @@
     >
       <div class="flex lg:max-w-2xl lg:w-full lg:pb-28">
         <HeroItemCard
-          url="https://gateway.pinata.cloud/ipfs/QmZ5NRBoW2KPufHjiHmNE2aeqdAZhC6cJSHXAXq2SqzrwA/0000000000000000000000000000000000000000000000000000000000000001.json"
+          :url="
+            this.getUrl(
+              '0000000000000000000000000000000000000000000000000000000000000001.json'
+            )
+          "
         /><HeroItemCard
           class="second-card"
-          url="https://gateway.pinata.cloud/ipfs/QmZ5NRBoW2KPufHjiHmNE2aeqdAZhC6cJSHXAXq2SqzrwA/0000000000000000000000000000000000000000000000000000000000000002.json"
+          :url="
+            this.getUrl(
+              '0000000000000000000000000000000000000000000000000000000000000002.json'
+            )
+          "
         />
       </div>
     </div>
@@ -257,6 +265,7 @@ import HeroItemCard from "./HeroItemCard.vue";
 // var VueWeb3 = require('vue-web3')
 import { ethers } from "ethers";
 import abi from "../util/abi.json";
+import { getUrl } from "../util/util";
 
 export default {
   name: "HeroComponent",
@@ -271,6 +280,9 @@ export default {
     HeroItemCard,
   },
   methods: {
+    getUrl(url) {
+      return getUrl(url);
+    },
     async connect({ commit, dispatch }, connect) {
       try {
         const { ethereum } = window;
@@ -289,43 +301,16 @@ export default {
         commit("setError", "Account request refused.");
       }
     },
-    async setupEventListeners() {
-      try {
-        // const connectedContract = await dispatch("getContract");
-        // if (!connectedContract) return;
-        // connectedContract
-        // .on
-        // "CharacterNFTMinted",
-        // async (from, tokenId, characterIndex) => {
-        //   console.log(
-        //     `CharacterNFTMinted - sender: ${from} tokenId: ${tokenId.toNumber()} characterIndex: ${characterIndex.toNumber()}`
-        //   );
-        //   const characterNFT = await connectedContract.checkIfUserHasNFT();
-        //   console.log(characterNFT);
-        //  // commit("setCharacterNFT", transformCharacterData(characterNFT));
-        //   alert(
-        //     `Your NFT is all done -- see it here: https://testnets.opensea.io/assets/${
-        //       state.contract_address
-        //     }/${tokenId.toNumber()}`
-        //   );
-        // }
-        // ();
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    async setupEventListeners() {},
     async mintCharacterNFT() {
       try {
-        //const { ethereum } = window;
+        const { ethereum } = window;
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const s = await provider.send("eth_requestAccounts", []);
         const connectedContract = await this.getContract();
-        // const provider = ethers.getDefaultProvider();
-        console.log(connectedContract);
-        const mintTxn = await connectedContract.mint(
-          "0xDBf1641CC695cD07fDd94829c1dFa4BdC0F926c4",
-          1,
-          1,
-          []
-        );
+        console.log(s, "sss");
+        console.log(ethereum);
+        const mintTxn = await connectedContract.mint(s[0], 1, []);
         console.log("sdfdsf");
         await mintTxn.wait();
         //mintTxn.send(provider.defaultAccount);
@@ -338,10 +323,11 @@ export default {
       try {
         const { ethereum } = window;
         const provider = new ethers.providers.Web3Provider(ethereum);
-        await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
+
+        //Contract addr
         const connectedContract = new ethers.Contract(
-          "0xB1D9906F421E3C9B60BcD655fcc537d7A52c6030",
+          "0xc6F31471410B5d7b5e7CA1D11c481250B7BE4e77",
           abi,
           signer
         );
