@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkorchid_front_end"]=self["webpackChunkorchid_front_end"]||[]).push([[443],{918:function(n,r,e){e.r(r),e.d(r,{default:function(){return f}});var t=e(3396);const u={class:"about bg-red-400"},a=(0,t._)("h1",null,"This is an about page",-1),c=[a];function o(n,r){return(0,t.wg)(),(0,t.iD)("div",u,c)}var s=e(89);const i={},d=(0,s.Z)(i,[["render",o]]);var f=d}}]);
+//# sourceMappingURL=about.4c2bac1f.js.map
