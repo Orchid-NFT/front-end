@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center h-fit text-left">
+  <div class="flex justify-center h-fit text-left mr-6 ml-6 mb-16">
     <div class="rounded-sm shadow-lg bg-white max-w-sm">
       <a href="#!">
         <!-- <img

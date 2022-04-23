@@ -1,5 +1,5 @@
 <template>
-  <div class="bg pt-12 flex justify-evenly flex-wrap pl-24 pr-24 pb-24">
+  <div class="bg flex justify-evenly flex-wrap pl-24 pr-24 pb-24 pt-24">
     <hero-item-card
       url="https://gateway.pinata.cloud/ipfs/QmZ5NRBoW2KPufHjiHmNE2aeqdAZhC6cJSHXAXq2SqzrwA/0000000000000000000000000000000000000000000000000000000000000001.json"
     />
